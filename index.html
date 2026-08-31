@@ -15,16 +15,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* Premium CSS Variables */
+        /* Premium CSS Variables (Dark Mode Default) */
         :root {
-            --bg-base: #030305; /* Deepest black/blue */
+            --bg-base: #030305; 
             --bg-surface: #0a0a10;
-            --accent-primary: #00f0ff; /* Neon cyan */
-            --accent-secondary: #7000ff; /* Deep neon purple */
+            --accent-primary: #00f0ff; 
+            --accent-secondary: #7000ff; 
             --text-primary: #ffffff;
             --text-secondary: #8a8a93;
             --border-glass: rgba(255, 255, 255, 0.05);
             --card-bg: rgba(10, 10, 16, 0.4);
+            --nav-bg: rgba(3, 3, 5, 0.7);
+            --nav-bg-scrolled: rgba(3, 3, 5, 0.95);
+            --glow-color-1: rgba(112, 0, 255, 0.08);
+            --glow-color-2: rgba(0, 240, 255, 0.08);
+            --btn-text: #030305;
+        }
+
+        /* Light Mode Theme Variables */
+        body.light-theme {
+            --bg-base: #f4f4f8; 
+            --bg-surface: #ffffff;
+            --accent-primary: #0284c7; /* Deep ocean blue */
+            --accent-secondary: #7e22ce; /* Vibrant purple */
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-glass: rgba(0, 0, 0, 0.08);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --nav-bg: rgba(255, 255, 255, 0.7);
+            --nav-bg-scrolled: rgba(255, 255, 255, 0.95);
+            --glow-color-1: rgba(126, 34, 206, 0.04);
+            --glow-color-2: rgba(2, 132, 199, 0.04);
+            --btn-text: #ffffff;
         }
 
         * {
@@ -45,9 +67,10 @@
             line-height: 1.7;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.08), transparent 25%);
+                radial-gradient(circle at 15% 50%, var(--glow-color-1), transparent 25%),
+                radial-gradient(circle at 85% 30%, var(--glow-color-2), transparent 25%);
             background-attachment: fixed;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         /* Custom Cursor */
@@ -69,7 +92,7 @@
             width: 40px;
             height: 40px;
             border: 1px solid var(--accent-secondary);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
         }
         
         /* Typography */
@@ -117,10 +140,10 @@
             top: 0;
             z-index: 1000;
             padding: 1.5rem 0;
-            background: rgba(3, 3, 5, 0.7);
+            background: var(--nav-bg);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-glass);
-            transition: padding 0.3s ease;
+            transition: padding 0.3s ease, background 0.3s ease;
         }
         
         .nav-content {
@@ -133,6 +156,13 @@
             font-size: 1.2rem;
             font-weight: 700;
             letter-spacing: 4px;
+            color: var(--text-primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
         }
 
         .nav-links {
@@ -168,14 +198,36 @@
             width: 100%;
         }
 
+        /* Theme Toggle Button */
+        .theme-btn {
+            background: transparent;
+            border: 1px solid var(--border-glass);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .theme-btn:hover {
+            background: var(--border-glass);
+            color: var(--accent-primary);
+            transform: rotate(15deg) scale(1.1);
+        }
+
         /* Hero Section */
         #hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding-top: 0;
+            padding-top: 100px;
         }
 
         .hero-subtitle {
@@ -191,6 +243,9 @@
             font-size: clamp(3rem, 6vw, 6rem);
             line-height: 1.1;
             margin-bottom: 2rem;
+        }
+
+        body:not(.light-theme) .hero-title {
             text-shadow: 0 0 40px rgba(0, 240, 255, 0.2);
         }
 
@@ -209,12 +264,16 @@
             font-size: 0.8rem;
             font-weight: 700;
             letter-spacing: 2px;
-            color: var(--bg-base);
+            color: var(--btn-text);
             background: var(--accent-primary);
             border-radius: 0;
             position: relative;
             z-index: 1;
             overflow: hidden;
+            border: none;
+        }
+
+        body:not(.light-theme) .btn {
             box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
         }
 
@@ -229,6 +288,9 @@
 
         .btn:hover {
             color: #fff;
+        }
+        
+        body:not(.light-theme) .btn:hover {
             box-shadow: 0 0 30px rgba(112, 0, 255, 0.5);
         }
 
@@ -251,7 +313,7 @@
             backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
-            transition: border-color 0.4s;
+            transition: border-color 0.4s, background-color 0.5s ease;
             transform-style: preserve-3d;
             perspective: 1000px;
         }
@@ -269,6 +331,10 @@
         }
         
         .card:hover {
+            border-color: rgba(2, 132, 199, 0.2);
+        }
+        
+        body:not(.light-theme) .card:hover {
             border-color: rgba(0, 240, 255, 0.2);
         }
 
@@ -334,7 +400,7 @@
             letter-spacing: 1px;
             padding: 1rem 2rem;
             border: 1px solid var(--border-glass);
-            background: rgba(255,255,255,0.02);
+            background: var(--border-glass);
             color: var(--text-secondary);
             transition: 0.3s;
         }
@@ -342,8 +408,7 @@
         .skill-item:hover {
             border-color: var(--accent-primary);
             color: var(--accent-primary);
-            background: rgba(0, 240, 255, 0.05);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+            background: transparent;
         }
 
         /* Innovations */
@@ -400,12 +465,18 @@
     <nav id="navbar">
         <div class="container nav-content">
             <div class="logo">SM<span class="text-gradient">UN</span></div>
-            <div class="nav-links">
-                <a href="#hero">Home</a>
-                <a href="#about">About</a>
-                <a href="#experience">Experience</a>
-                <a href="#innovations">Innovations</a>
-                <a href="#contact">Contact</a>
+            <div class="nav-right">
+                <div class="nav-links">
+                    <a href="#hero">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#innovations">Innovations</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <!-- Theme Toggle Button -->
+                <button id="theme-toggle" class="theme-btn" aria-label="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-sun" id="theme-icon"></i>
+                </button>
             </div>
         </div>
     </nav>
@@ -500,7 +571,7 @@
     </section>
 
     <!-- Innovations -->
-    <section id="innovations" style="background: rgba(255,255,255,0.01);">
+    <section id="innovations" style="background: rgba(126, 34, 206, 0.02);">
         <div class="container">
             <h2 class="reveal">Pioneering <span class="text-gradient">Ventures</span></h2>
             
@@ -573,7 +644,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" style="background: rgba(255,255,255,0.01);">
+    <section id="contact" style="background: rgba(2, 132, 199, 0.02);">
         <div class="container" style="text-align: center;">
             <h2 class="reveal">Initiate <span class="text-gradient">Contact</span></h2>
             <p class="hero-desc reveal" style="margin-bottom: 4rem;">
@@ -584,8 +655,8 @@
                 <a href="mailto:misbahnoor2003@gmail.com" class="btn" style="background: transparent; border: 1px solid var(--accent-primary); color: var(--text-primary); box-shadow: none;">
                     <i class="fa-solid fa-envelope" style="margin-right: 10px;"></i> Email Me
                 </a>
-                <a href="#" class="btn" style="pointer-events: none;">
-                    <i class="fa-solid fa-phone" style="margin-right: 10px;"></i> +92 312 9594770
+                <a href="https://wa.me/923129594770" target="_blank" class="btn" style="border: 1px solid var(--border-glass); background: var(--border-glass); color: var(--text-primary);">
+                    <i class="fa-brands fa-whatsapp" style="margin-right: 10px; color: #25D366;"></i> WhatsApp
                 </a>
             </div>
         </div>
@@ -599,6 +670,29 @@
 
     <!-- Interactive Scripts -->
     <script>
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        // Check for saved theme preference or use system preference
+        const savedTheme = localStorage.getItem('portfolio-theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+            themeIcon.classList.replace('fa-sun', 'fa-moon');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            
+            if (document.body.classList.contains('light-theme')) {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('portfolio-theme', 'light');
+            } else {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('portfolio-theme', 'dark');
+            }
+        });
+
         // Custom Cursor Logic
         const cursorDot = document.querySelector('[data-cursor-dot]');
         const cursorOutline = document.querySelector('[data-cursor-outline]');
@@ -610,21 +704,20 @@
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
             
-            // Slight delay for the outline ring
             cursorOutline.animate({
                 left: `${posX}px`,
                 top: `${posY}px`
             }, { duration: 500, fill: "forwards" });
         });
         
-        // Cursor hover effects on links/buttons
-        const interactables = document.querySelectorAll('a, .btn, .card');
+        // Cursor hover effects
+        const interactables = document.querySelectorAll('a, button, .card');
         interactables.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursorOutline.style.width = '60px';
                 cursorOutline.style.height = '60px';
                 cursorOutline.style.borderColor = 'var(--accent-secondary)';
-                cursorOutline.style.backgroundColor = 'rgba(112, 0, 255, 0.1)';
+                cursorOutline.style.backgroundColor = 'var(--glow-color-1)';
             });
             el.addEventListener('mouseleave', () => {
                 cursorOutline.style.width = '40px';
@@ -658,7 +751,7 @@
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                const rotateX = ((y - centerY) / centerY) * -10; // max 10 deg
+                const rotateX = ((y - centerY) / centerY) * -10;
                 const rotateY = ((x - centerX) / centerX) * 10;
                 
                 el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
@@ -674,10 +767,10 @@
         window.addEventListener('scroll', () => {
             if(window.scrollY > 50) {
                 navbar.style.padding = '1rem 0';
-                navbar.style.background = 'rgba(3, 3, 5, 0.95)';
+                navbar.style.background = 'var(--nav-bg-scrolled)';
             } else {
                 navbar.style.padding = '1.5rem 0';
-                navbar.style.background = 'rgba(3, 3, 5, 0.7)';
+                navbar.style.background = 'var(--nav-bg)';
             }
         });
     </script>
